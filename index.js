@@ -10,7 +10,7 @@ const saltRounds = 10;
 
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-
+app.set("trust proxy", 1);
 app.use(cookieParser());
 
 const {
