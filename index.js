@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const privateKey = "forgiven";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
+app.use(express.static(path.join(__dirname, "/front/build")));
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.set("trust proxy", 1);
