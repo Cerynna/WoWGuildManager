@@ -135,5 +135,5 @@ app.post("/api/raid/accept", async (req, res) => {
 });
 const port = process.env.NODE_ENV === "development" ? 8000 : 3000
 app.listen(port, async () => {
-  console.log(`WOWGUILDMANAGER RUN IN PORT ${port}"`);
+  console.log(`WOWGUILDMANAGER RUN IN PORT ${port}`);
 });
