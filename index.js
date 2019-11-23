@@ -132,6 +132,6 @@ app.post("/api/raid/accept", async (req, res) => {
   saveInDBRaid(raid);
   res.json(true);
 });
-app.listen(8000, async () => {
+app.listen(process.env.NODE_ENV === "development" ? 8000 : 3000, async () => {
   console.log("Example app listening on port 8000!");
 });

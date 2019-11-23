@@ -12,6 +12,6 @@
     "sequelize": "^5.21.2"
   },
   "scripts": {
-    "dev": "nodemon index.js -i ./database"
+    "dev": "NODE_ENV=development nodemon index.js -i ./database"
   }
 }
