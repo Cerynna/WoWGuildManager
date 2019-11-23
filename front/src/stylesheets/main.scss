@@ -1,0 +1,432 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway&display=swap");
+body {
+  padding: 0;
+  margin: 0;
+  color: #ffffff;
+  // min-width: 100vw;
+  // min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)),
+    url("../imgs/background.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-family: "Raleway", sans-serif;
+
+  #main {
+    background: rgba(0, 0, 0, 0.5);
+    min-width: 50vw;
+    max-height: 100vh;
+    min-height: 20vh;
+    margin-top: 7vh;
+    padding: 10px;
+    position: relative;
+    #MyCharacter {
+      min-height: 50vh;
+      .name {
+        display: inline-flex;
+        justify-content: center;
+        align-items: flex-end;
+        .text {
+          padding-left: 10px;
+          font-size: 1.2em;
+        }
+      }
+      &.druid {
+        background: bottom right url("../imgs/crests/druid.png") no-repeat;
+        color: #ff7d0a;
+      }
+      &.hunter {
+        background: bottom right url("../imgs/crests/hunter.png") no-repeat;
+        color: #abd473;
+      }
+      &.mage {
+        background: bottom right url("../imgs/crests/mage.png") no-repeat;
+        color: #69ccf0;
+      }
+      &.paladin {
+        background: bottom right url("../imgs/crests/paladin.png") no-repeat;
+        color: #f58cba;
+      }
+      &.priest {
+        background: bottom right url("../imgs/crests/priest.png") no-repeat;
+        color: #ffffff;
+      }
+      &.rogue {
+        background: bottom right url("../imgs/crests/rogue.png") no-repeat;
+        color: #fff569;
+      }
+      &.shaman {
+        background: bottom right url("../imgs/crests/shaman.png") no-repeat;
+        color: #0070de;
+      }
+      &.warlock {
+        background: bottom right url("../imgs/crests/warlock.png") no-repeat;
+        color: #9482c9;
+      }
+      &.warrior {
+        background: bottom right url("../imgs/crests/warrior.png") no-repeat;
+        color: #c79c6e;
+      }
+      .icon {
+        width: 40px;
+        height: 40px;
+        &.druid {
+          background: center center url("../imgs/class/64/druid.png") no-repeat;
+          background-size: contain;
+        }
+        &.hunter {
+          background: center center url("../imgs/class/64/hunter.png") no-repeat;
+          background-size: contain;
+        }
+        &.mage {
+          background: center center url("../imgs/class/64/mage.png") no-repeat;
+          background-size: contain;
+        }
+        &.paladin {
+          background: center center url("../imgs/class/64/paladin.png")
+            no-repeat;
+          background-size: contain;
+        }
+        &.priest {
+          background: center center url("../imgs/class/64/priest.png") no-repeat;
+          background-size: contain;
+        }
+        &.rogue {
+          background: center center url("../imgs/class/64/rogue.png") no-repeat;
+          background-size: contain;
+        }
+        &.shaman {
+          background: center center url("../imgs/class/64/shaman.png") no-repeat;
+          background-size: contain;
+        }
+        &.warlock {
+          background: center center url("../imgs/class/64/warlock.png")
+            no-repeat;
+          background-size: contain;
+        }
+        &.warrior {
+          background: center center url("../imgs/class/64/warrior.png")
+            no-repeat;
+          background-size: contain;
+        }
+      }
+      .stuff {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-around;
+        div {
+          width: 40px;
+          height: 40px;
+          margin: 2px;
+          border-radius: 2px;
+        }
+        .head {
+          background: url("../imgs/stuff/inventoryslot_head.jpg");
+          background-size: contain;
+        }
+        .hands {
+          background: url("../imgs/stuff/inventoryslot_hands.jpg");
+          background-size: contain;
+        }
+        .neck {
+          background: url("../imgs/stuff/inventoryslot_neck.jpg");
+          background-size: contain;
+        }
+        .waist {
+          background: url("../imgs/stuff/inventoryslot_waist.jpg");
+          background-size: contain;
+        }
+        .shoulder {
+          background: url("../imgs/stuff/inventoryslot_shoulder.jpg");
+          background-size: contain;
+        }
+        .legs {
+          background: url("../imgs/stuff/inventoryslot_legs.jpg");
+          background-size: contain;
+        }
+        .chest {
+          background: url("../imgs/stuff/inventoryslot_chest.jpg");
+          background-size: contain;
+        }
+        .feet {
+          background: url("../imgs/stuff/inventoryslot_feet.jpg");
+          background-size: contain;
+        }
+        .wrists {
+          background: url("../imgs/stuff/inventoryslot_wrists.jpg");
+          background-size: contain;
+        }
+        .finger {
+          background: url("../imgs/stuff/inventoryslot_finger.jpg");
+          background-size: contain;
+        }
+        .trinket {
+          background: url("../imgs/stuff/inventoryslot_trinket.jpg");
+          background-size: contain;
+        }
+        .mainhand {
+          background: url("../imgs/stuff/inventoryslot_mainhand.jpg");
+          background-size: contain;
+        }
+        .offhand {
+          background: url("../imgs/stuff/inventoryslot_offhand.jpg");
+          background-size: contain;
+        }
+        .relic {
+          background: url("../imgs/stuff/inventoryslot_relic.jpg");
+          background-size: contain;
+        }
+      }
+    }
+    #Calendar {
+      .header {
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 40px;
+        .prev,.next{
+          font-size: 2em;
+        }
+      }
+      .weekheader {
+        display: flex;
+        .day {
+          width: 120px;
+          margin: 5px;
+          text-align: center;
+          border: 1px solid #ffffff00;
+        }
+      }
+      .week {
+        display: flex;
+        .day {
+          width: 120px;
+          height: 120px;
+          background: rgba(0, 0, 0, 0);
+          margin: 5px;
+          //   border: 1px solid #ffffff;
+          border: 1px solid rgba(255, 255, 255, 1);
+          position: relative;
+          border-radius: 2px;
+          color: #ffffff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.passed {
+            // border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5);
+            color: #000;
+            filter: grayscale(1);
+            &:hover {
+              transform: scale(1);
+              background: rgba(255, 255, 255, 0.5);
+            }
+          }
+          &.today {
+            border: 1px solid yellow;
+          }
+          .number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 1.2em;
+          }
+          .events {
+            // position: absolute;
+            margin-top: 40px;
+            bottom: 2px;
+            right: 1.5px;
+            .raid {
+              border: 2px solid #000;
+              color: #FFFFFF;
+              width: 110px;
+              cursor: pointer;
+              display: inline-flex;
+              background: rgb(75, 75, 75);
+              border-radius: 2px;
+              &.accept {
+                border: 2px solid green;
+                background: rgb(113, 155, 113);
+              }
+              &.refuse {
+                border: 2px solid red;
+                background: rgb(151, 68, 68);
+              }
+              .icon{
+                width: 40px;
+                height: 70px;
+                &.mc {
+                  background: url("../imgs/raids/mc.jpg");
+                }
+                &.bwl {
+                  background: url("../imgs/raids/bwl.jpg");
+                }
+                &.aq {
+                  background: url("../imgs/raids/aq.jpg");
+                }
+                &.zg {
+                  background: url("../imgs/raids/zg.jpg");
+                }
+                &.naxx {
+                  background: url("../imgs/raids/naxx.jpg");
+                }
+                &.wb {
+                  background: url("../imgs/raids/wb.jpg");
+                }
+                &.ony {
+                  background: url("../imgs/raids/ony.jpg");
+                }
+                &.mc,
+                &.bwl,
+                &.aq,
+                &.naxx,
+                &.wg,
+                &.ony,
+                &.zg {
+                  background-position: left center;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                }
+              }
+              .name,
+              .hours {
+                text-align: center;
+                width: 70px;
+                // padding-bottom: 2px;
+              }
+
+              
+              .tools {
+                width: 100%;
+                display: inline-flex;
+                justify-content: space-around;
+                padding-top: 10px;
+                .refuse,
+                .accept {
+                  border-radius: 2px;
+                  font-size: 20px;
+                  height: 20px;
+                  width: 20px;
+                  line-height: 20px;
+                  text-align: center;
+                  background: #FFFFFF;
+                }
+                .refuse {
+                  // border: 1px solid red;
+                  color: red;
+                  &:hover {
+                    background: red;
+                    color: #ffffff;
+                  }
+                }
+                .accept {
+                  // border: 1px solid green;
+                  color: green;
+                  &:hover {
+                    background: green;
+                    color: #ffffff;
+                  }
+                }
+              }
+            }
+          }
+          &:hover {
+            transform: scale(1.1);
+            z-index: 1000;
+            background: #ffffff;
+            color: #000000;
+          }
+        }
+      }
+    }
+  }
+  #nav {
+    position: fixed;
+    min-width: 100vw;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.8);
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ul {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      margin-left: 50px;
+    }
+    li {
+      display: inline;
+      margin: 0 10px;
+      a {
+        color: #ffffff;
+      }
+    }
+    .profil {
+      margin-right: 50px;
+    }
+  }
+
+  .Login {
+    margin-top: 5vh;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    .title {
+      text-align: center;
+      font-size: 1.2em;
+      padding-bottom: 20px;
+    }
+    .register {
+      text-align: center;
+      font-size: 0.9em;
+      margin: 10px 0 0 0;
+      cursor: pointer;
+    }
+    label {
+      display: block;
+      margin: 10px 0 0 0;
+    }
+    input[type="text"],
+    input[type="password"] {
+      padding: 5px;
+      text-align: center;
+      border-radius: 2px;
+      border: 2px solid #ffffff;
+      background-color: rgb(119, 119, 119) !important;
+      font-size: 1.1em;
+      transition: all ease-in-out 200ms;
+      outline: red;
+      &:focus {
+        background: rgb(200, 200, 200) !important;
+      }
+    }
+    input {
+      background-color: rgb(119, 119, 119) !important;
+    }
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px rgb(119, 119, 119) inset;
+    }
+  }
+  .btn {
+    background: blue;
+    border: 2px solid blue;
+    margin: 20px 0 0 0;
+    text-align: center;
+    padding: 5px;
+    border-radius: 2px;
+    font-size: 1.1em;
+    cursor: pointer;
+    &:hover {
+      background: #ffffff;
+      color: blue;
+    }
+  }
+}

@@ -1,0 +1,149 @@
+[{
+    "name": "Hystérias",
+    "pass": "$2b$10$VwcsDcCNAchhnT8G4Ss2h.SGWDL4ihqDv19p2uBg2p.7fvGIyWED.",
+    "wishlist": [],
+    "stuff": [{
+        "name": "Tete",
+        "type": "head",
+        "item": null
+    }, {
+        "name": "Mains",
+        "type": "hands",
+        "item": null
+    }, {
+        "name": "Colier",
+        "type": "neck",
+        "item": null
+    }, {
+        "name": "Ceinture",
+        "type": "waist",
+        "item": null
+    }, {
+        "name": "Epaulière",
+        "type": "shoulder",
+        "item": null
+    }, {
+        "name": "Jambieres",
+        "type": "legs",
+        "item": null
+    }, {
+        "name": "Torse",
+        "type": "chest",
+        "item": null
+    }, {
+        "name": "Pieds",
+        "type": "feet",
+        "item": null
+    }, {
+        "name": "Bracelets",
+        "type": "wrists",
+        "item": null
+    }, {
+        "name": "Doigt 1",
+        "type": "finger",
+        "item": null
+    }, {
+        "name": "Doigt 2",
+        "type": "finger",
+        "item": null
+    }, {
+        "name": "Bijou 1",
+        "type": "trinket",
+        "item": null
+    }, {
+        "name": "ijou 2",
+        "type": "trinket",
+        "item": null
+    }, {
+        "name": "Arme Principal",
+        "type": "mainhand",
+        "item": null
+    }, {
+        "name": "Arme Secondaire",
+        "type": "offhand",
+        "item": null
+    }, {
+        "name": "Relic/Idole/Arme Distant/",
+        "type": "relic",
+        "item": null
+    }],
+    "classe": null,
+    "spe": null,
+    "grade": null,
+    "lastlog": 1574538810081,
+    "id": "pytTkcX6Ai"
+}, {
+    "name": "Michel",
+    "pass": "$2b$10$jorxILLZZ0LZjXCbtdOqMusd7RG/uY7OmlskduWUfrX5pKjO6CW3S",
+    "wishlist": [],
+    "stuff": [{
+        "name": "Tete",
+        "type": "head",
+        "item": null
+    }, {
+        "name": "Mains",
+        "type": "hands",
+        "item": null
+    }, {
+        "name": "Colier",
+        "type": "neck",
+        "item": null
+    }, {
+        "name": "Ceinture",
+        "type": "waist",
+        "item": null
+    }, {
+        "name": "Epaulière",
+        "type": "shoulder",
+        "item": null
+    }, {
+        "name": "Jambieres",
+        "type": "legs",
+        "item": null
+    }, {
+        "name": "Torse",
+        "type": "chest",
+        "item": null
+    }, {
+        "name": "Pieds",
+        "type": "feet",
+        "item": null
+    }, {
+        "name": "Bracelets",
+        "type": "wrists",
+        "item": null
+    }, {
+        "name": "Doigt 1",
+        "type": "finger",
+        "item": null
+    }, {
+        "name": "Doigt 2",
+        "type": "finger",
+        "item": null
+    }, {
+        "name": "Bijou 1",
+        "type": "trinket",
+        "item": null
+    }, {
+        "name": "ijou 2",
+        "type": "trinket",
+        "item": null
+    }, {
+        "name": "Arme Principal",
+        "type": "mainhand",
+        "item": null
+    }, {
+        "name": "Arme Secondaire",
+        "type": "offhand",
+        "item": null
+    }, {
+        "name": "Relic/Idole/Arme Distant/",
+        "type": "relic",
+        "item": null
+    }],
+    "classe": null,
+    "spe": null,
+    "grade": null,
+    "lastlog": 1574539340418,
+    "id": "WV8HzH346z"
+}]
