@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const privateKey = "forgiven";
