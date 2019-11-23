@@ -23,6 +23,11 @@ const {
   indexStatusRaidForUser
 } = require("./database");
 
+app.get("*", (req, res) => {
+  const index = path.join(__dirname, "/front/build/index.html");
+  res.sendFile(path.join(index));
+});
+
 app.post("/auth/login", async (req, res) => {
   const { login, pass } = req.body;
   const user = findInDBUser(login);

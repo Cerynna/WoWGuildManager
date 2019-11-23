@@ -1,2 +1,9 @@
 node_modules
 front/node_modules
+front/public
+front/src
+front/package.json
+front/README.md
+front/yarn.lock
+front/yarn-error.log
+react
