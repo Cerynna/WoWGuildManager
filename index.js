@@ -24,10 +24,7 @@ const {
   indexStatusRaidForUser
 } = require("./database");
 
-app.get("*", (req, res) => {
-  const index = path.join(__dirname, "/front/build/index.html");
-  res.sendFile(path.join(index));
-});
+
 
 app.post("/auth/login", async (req, res) => {
   const { login, pass } = req.body;
@@ -133,7 +130,10 @@ app.post("/api/raid/accept", async (req, res) => {
   saveInDBRaid(raid);
   res.json(true);
 });
-
+app.get("*", (req, res) => {
+  const index = path.join(__dirname, "/front/build/index.html");
+  res.sendFile(path.join(index));
+});
 
 const port = process.env.NODE_ENV === "development" ? 8000 : 3000
 app.listen(port, async () => {
