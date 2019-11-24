@@ -175,7 +175,6 @@ const saveInDBRaid = raid => {
   fs.writeFileSync(`${__dirname}/Raids.json`, JSON.stringify(DBRaid), "utf8");
 };
 const indexStatusRaidForUser = (raid, user) => {
-  console.log('indexStatusRaidForUser', raid)
   let indexAccept = raid.roster.accept
     .map((currentUser, index) => {
       return currentUser.user == user ? index : false;
