@@ -15,6 +15,7 @@ app.use(cookieParser());
 
 const {
   User,
+  makeid,
   findInDBUser,
   saveInDBUser,
   findInDBUserbyID,
@@ -23,8 +24,6 @@ const {
   saveInDBRaid,
   indexStatusRaidForUser
 } = require("./database");
-
-
 
 app.post("/auth/login", async (req, res) => {
   const { login, pass } = req.body;
@@ -35,6 +34,7 @@ app.post("/auth/login", async (req, res) => {
         var token = jwt.sign(user, privateKey);
         res.cookie("token", token);
         res.cookie("user", user.id);
+        res.cookie("grade", user.grade);
         res.json(true);
       } else {
         res.json({
@@ -71,6 +71,7 @@ app.post("/auth/register", async (req, res) => {
     const token = jwt.sign(user.fulldata(), privateKey);
     res.cookie("token", token);
     res.cookie("user", user.id);
+    res.cookie("grade", user.grade);
     res.json(true);
   }
 });
@@ -79,6 +80,8 @@ app.post("/auth/verif", async (req, res) => {
   jwt.verify(token, privateKey, (err, decoded) => {
     const newToken = jwt.sign(findInDBUser(decoded.name), privateKey);
     res.cookie("token", newToken);
+    res.cookie("user", user.id);
+    res.cookie("grade", user.grade);
     res.json(err ? false : true);
   });
 });
@@ -130,12 +133,20 @@ app.post("/api/raid/accept", async (req, res) => {
   saveInDBRaid(raid);
   res.json(true);
 });
+
+app.post("/api/raid/new", async (req, res) => {
+  console.log(req.body);
+  req.body.id = makeid(10);
+  saveInDBRaid(req.body);
+  res.json(true);
+});
+
 app.get("*", (req, res) => {
   const index = path.join(__dirname, "/front/build/index.html");
   res.sendFile(path.join(index));
 });
 
-const port = process.env.NODE_ENV === "development" ? 8000 : 3000
+const port = process.env.NODE_ENV === "development" ? 8000 : 3000;
 app.listen(port, async () => {
   console.log(`WOWGUILDMANAGER RUN IN PORT ${port}`);
 });

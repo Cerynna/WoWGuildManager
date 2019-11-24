@@ -266,6 +266,7 @@ module.exports = {
   User,
   Stuff,
   Grades,
+  makeid,
   findInDBUser,
   findInDBUserbyID,
   saveInDBUser,
