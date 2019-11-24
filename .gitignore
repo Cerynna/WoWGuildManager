@@ -7,3 +7,5 @@ front/README.md
 front/yarn.lock
 front/yarn-error.log
 react
+database/Raids.json
+database/Users.json

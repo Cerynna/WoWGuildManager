@@ -7,10 +7,10 @@ const jwt = require("jsonwebtoken");
 const privateKey = "forgiven";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-app.use(express.static(path.join(__dirname, "/front/build")));
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.set("trust proxy", 1);
+app.use(express.static(path.join(__dirname, "/front/build")));
 app.use(cookieParser());
 
 const {
@@ -24,10 +24,7 @@ const {
   indexStatusRaidForUser
 } = require("./database");
 
-app.get("*", (req, res) => {
-  const index = path.join(__dirname, "/front/build/index.html");
-  res.sendFile(path.join(index));
-});
+
 
 app.post("/auth/login", async (req, res) => {
   const { login, pass } = req.body;
@@ -133,6 +130,11 @@ app.post("/api/raid/accept", async (req, res) => {
   saveInDBRaid(raid);
   res.json(true);
 });
+app.get("*", (req, res) => {
+  const index = path.join(__dirname, "/front/build/index.html");
+  res.sendFile(path.join(index));
+});
+
 const port = process.env.NODE_ENV === "development" ? 8000 : 3000
 app.listen(port, async () => {
   console.log(`WOWGUILDMANAGER RUN IN PORT ${port}`);
