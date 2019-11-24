@@ -85,11 +85,14 @@ app.post("/auth/verif", async (req, res) => {
     res.json(err ? false : true);
   });
 });
-app.get("/api/user/:name", async (req, res) => {
+app.get("/api/user/name/:name", async (req, res) => {
   console.log("FIND USER", req.params.name);
   res.json(findInDBUser(req.params.name));
 });
-
+app.get("/api/user/id/:id", async (req, res) => {
+  console.log("FIND USER", req.params.id);
+  res.json(findInDBUserbyID(req.params.id));
+});
 app.post("/api/decodeToken", async (req, res) => {
   var decoded = jwt.verify(req.body.token, privateKey);
   res.json(findInDBUser(decoded.name));
@@ -133,6 +136,9 @@ app.post("/api/raid/accept", async (req, res) => {
   saveInDBRaid(raid);
   res.json(true);
 });
+
+
+
 
 app.post("/api/raid/new", async (req, res) => {
   console.log(req.body);
