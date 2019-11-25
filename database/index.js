@@ -143,7 +143,7 @@ const saveInDBUser = user => {
   if (indexUser == "") {
     indexUser = DBUser.length;
   }
-  DBUser[indexUser] = user.fulldata();
+  DBUser[indexUser] = user;
   fs.writeFileSync(`${__dirname}/Users.json`, JSON.stringify(DBUser), "utf8");
 };
 
@@ -190,44 +190,7 @@ const indexStatusRaidForUser = (raid, user) => {
 
   return { indexAccept, indexRefuse };
 };
-const Classes = {
-  druid: {
-    color: "#FF7D0A",
-    name: "Druide"
-  },
-  hunter: {
-    color: "#ABD473",
-    name: "Chasseur"
-  },
-  mage: {
-    color: "#69CCF0",
-    name: "Mage"
-  },
-  paladin: {
-    color: "#F58CBA",
-    name: "Paladin"
-  },
-  priest: {
-    color: "#FFFFFF",
-    name: "Pretre"
-  },
-  rogue: {
-    color: "#FFF569",
-    name: "Voleur"
-  },
-  shaman: {
-    color: "#0070DE",
-    name: "Chaman"
-  },
-  warlock: {
-    color: "#9482C9",
-    name: "Démoniste"
-  },
-  warrior: {
-    color: "#C79C6E",
-    name: "Guerrier"
-  }
-};
+
 
 const Grades = [
   { id: 0, name: "Membre" },

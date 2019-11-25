@@ -31,7 +31,7 @@ app.post("/auth/login", async (req, res) => {
   if (user) {
     bcrypt.compare(pass, user.pass, function(err, resPass) {
       if (resPass) {
-        var token = jwt.sign(user, privateKey);
+        var token = jwt.sign(user.id, privateKey);
         res.cookie("token", token);
         res.cookie("user", user.id);
         res.cookie("grade", user.grade);
@@ -68,7 +68,7 @@ app.post("/auth/register", async (req, res) => {
     });
   } else {
     const user = new User(req.body.login, hash);
-    const token = jwt.sign(user.fulldata(), privateKey);
+    const token = jwt.sign(user.id, privateKey);
     res.cookie("token", token);
     res.cookie("user", user.id);
     res.cookie("grade", user.grade);
@@ -78,7 +78,7 @@ app.post("/auth/register", async (req, res) => {
 app.post("/auth/verif", async (req, res) => {
   const { token } = req.body;
   jwt.verify(token, privateKey, (err, decoded) => {
-    const newToken = jwt.sign(findInDBUser(decoded.name), privateKey);
+    const newToken = jwt.sign(findInDBUser(decoded.name).id, privateKey);
     res.cookie("token", newToken);
     res.cookie("user", user.id);
     res.cookie("grade", user.grade);
@@ -93,6 +93,15 @@ app.get("/api/user/id/:id", async (req, res) => {
   console.log("FIND USER", req.params.id);
   res.json(findInDBUserbyID(req.params.id));
 });
+
+app.post("/api/user/update/", async (req, res) => {
+  console.log("UPDATE USER", req.params);
+  const {myCharacter} = req.body;
+  console.log(myCharacter);
+  saveInDBUser(myCharacter)
+  res.json(true);
+});
+
 app.post("/api/decodeToken", async (req, res) => {
   var decoded = jwt.verify(req.body.token, privateKey);
   res.json(findInDBUser(decoded.name));
@@ -136,9 +145,6 @@ app.post("/api/raid/accept", async (req, res) => {
   saveInDBRaid(raid);
   res.json(true);
 });
-
-
-
 
 app.post("/api/raid/new", async (req, res) => {
   console.log(req.body);
