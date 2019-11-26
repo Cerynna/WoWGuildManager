@@ -161,6 +161,28 @@ const findInDBRaidbyDate = (day, month, year) => {
   });
   return findRaid !== undefined ? findRaid : false;
 };
+
+const findAllUsers = () => {
+  return JSON.parse(fs.readFileSync(`${__dirname}/Users.json`, "utf8"));
+};
+const removeUser = idUser => {
+  var DBUser = JSON.parse(fs.readFileSync(`${__dirname}/Users.json`, "utf8"));
+  console.log(DBUser.length)
+  const indexUser = DBUser.map((user, index) =>
+    user.id == idUser ? index : false
+  )
+    .filter(x => x !== false)
+    .pop();
+  delete DBUser[indexUser];
+  console.log(DBUser.length)
+  const newDBUser = DBUser.filter(x => x !== null);
+
+  console.log(newDBUser.length)
+  fs.writeFileSync(`${__dirname}/Users.json`, JSON.stringify(newDBUser), "utf8");
+
+  return true;
+};
+// removeUser("a5v2oMBRdC");
 const saveInDBRaid = raid => {
   var DBRaid = JSON.parse(fs.readFileSync(`${__dirname}/Raids.json`, "utf8"));
   let indexRaid = DBRaid.map((currentRaid, index) => {
@@ -190,7 +212,6 @@ const indexStatusRaidForUser = (raid, user) => {
 
   return { indexAccept, indexRefuse };
 };
-
 
 const Grades = [
   { id: 0, name: "Membre" },
@@ -231,8 +252,10 @@ module.exports = {
   Grades,
   makeid,
   findInDBUser,
+  findAllUsers,
   findInDBUserbyID,
   saveInDBUser,
+  removeUser,
   findInDBRaidbyID,
   findInDBRaidbyDate,
   saveInDBRaid,

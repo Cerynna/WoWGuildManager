@@ -17,7 +17,9 @@ const {
   User,
   makeid,
   findInDBUser,
+  findAllUsers,
   saveInDBUser,
+  removeUser,
   findInDBUserbyID,
   findInDBRaidbyID,
   findInDBRaidbyDate,
@@ -85,20 +87,27 @@ app.post("/auth/verif", async (req, res) => {
     res.json(err ? false : true);
   });
 });
+app.get("/api/users", async (req, res) => {
+  res.json(findAllUsers());
+});
+
 app.get("/api/user/name/:name", async (req, res) => {
-  console.log("FIND USER", req.params.name);
   res.json(findInDBUser(req.params.name));
 });
 app.get("/api/user/id/:id", async (req, res) => {
-  console.log("FIND USER", req.params.id);
   res.json(findInDBUserbyID(req.params.id));
 });
 
 app.post("/api/user/update/", async (req, res) => {
-  console.log("UPDATE USER", req.params);
-  const {myCharacter} = req.body;
-  console.log(myCharacter);
-  saveInDBUser(myCharacter)
+  const { user } = req.body;
+  saveInDBUser(user);
+  res.json(true);
+});
+
+app.get("/api/user/delete/:idUser", async (req, res) => {
+  console.log("DELETE")
+  const { idUser } = req.params;
+  removeUser(idUser);
   res.json(true);
 });
 
