@@ -209,8 +209,14 @@ const indexStatusRaidForUser = (raid, user) => {
     })
     .filter(x => x !== false)
     .join();
+    let indexBench = raid.roster.bench
+    .map((currentUser, index) => {
+      return currentUser.user == user ? index : false;
+    })
+    .filter(x => x !== false)
+    .join();
 
-  return { indexAccept, indexRefuse };
+  return { indexAccept, indexRefuse, indexBench };
 };
 
 const Grades = [

@@ -105,7 +105,7 @@ app.post("/api/user/update/", async (req, res) => {
 });
 
 app.get("/api/user/delete/:idUser", async (req, res) => {
-  console.log("DELETE")
+  console.log("DELETE");
   const { idUser } = req.params;
   removeUser(idUser);
   res.json(true);
@@ -116,21 +116,32 @@ app.post("/api/decodeToken", async (req, res) => {
   res.json(findInDBUser(decoded.name));
 });
 
-app.get("/raid/:day/:month/:year", async (req, res) => {
+app.get("/api/raid/:day/:month/:year", async (req, res) => {
   const { day, month, year } = req.params;
   res.json(findInDBRaidbyDate(day, month, year));
 });
 
-app.get("/raid/:raidId", async (req, res) => {
+app.get("/api/raid/:raidId", async (req, res) => {
   const { raidId } = req.params;
   res.json(findInDBRaidbyID(raidId));
+});
+app.post("/api/raid/update", async (req, res) => {
+  const { raid } = req.body;
+  saveInDBRaid(raid);
+  res.json(true);
 });
 app.post("/api/raid/refuse", async (req, res) => {
   const { id, user } = req.body;
   const raid = findInDBRaidbyID(id);
-  let { indexAccept, indexRefuse } = indexStatusRaidForUser(raid, user);
+  const { indexAccept, indexRefuse, indexBench } = indexStatusRaidForUser(
+    raid,
+    user
+  );
   if (indexAccept !== "") {
     raid.roster.accept.splice(indexAccept, 1);
+  }
+  if (indexBench !== "") {
+    raid.roster.bench.splice(indexBench, 1);
   }
   if (indexRefuse == "") {
     raid.roster.refuse.push({ user: user, date: Date.now() });
@@ -143,13 +154,40 @@ app.post("/api/raid/accept", async (req, res) => {
   const { id, user } = req.body;
   const raid = findInDBRaidbyID(id);
 
-  const { indexAccept, indexRefuse } = indexStatusRaidForUser(raid, user);
+  const { indexAccept, indexRefuse, indexBench } = indexStatusRaidForUser(
+    raid,
+    user
+  );
 
   if (indexRefuse !== "") {
     raid.roster.refuse.splice(indexRefuse, 1);
   }
+  if (indexBench !== "") {
+    raid.roster.bench.splice(indexBench, 1);
+  }
   if (indexAccept == "") {
-    raid.roster.accept.push({ user: user, date: Date.now() });
+    raid.roster.accept.push({ user: user, date: Date.now(), valid: false });
+  }
+  saveInDBRaid(raid);
+  res.json(true);
+});
+app.post("/api/raid/bench", async (req, res) => {
+  const { id, user } = req.body;
+  const raid = findInDBRaidbyID(id);
+
+  const { indexAccept, indexRefuse, indexBench } = indexStatusRaidForUser(
+    raid,
+    user
+  );
+
+  if (indexRefuse !== "") {
+    raid.roster.refuse.splice(indexRefuse, 1);
+  }
+  if (indexAccept !== "") {
+    raid.roster.accept.splice(indexAccept, 1);
+  }
+  if (indexBench == "") {
+    raid.roster.bench.push({ user: user, date: Date.now() });
   }
   saveInDBRaid(raid);
   res.json(true);
