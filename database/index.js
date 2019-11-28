@@ -165,6 +165,10 @@ const findInDBRaidbyDate = (day, month, year) => {
 const findAllUsers = () => {
   return JSON.parse(fs.readFileSync(`${__dirname}/Users.json`, "utf8"));
 };
+
+const findAllRaids = () => {
+  return JSON.parse(fs.readFileSync(`${__dirname}/Raids.json`, "utf8"));
+};
 const removeUser = idUser => {
   var DBUser = JSON.parse(fs.readFileSync(`${__dirname}/Users.json`, "utf8"));
   console.log(DBUser.length)
@@ -259,6 +263,7 @@ module.exports = {
   makeid,
   findInDBUser,
   findAllUsers,
+  findAllRaids,
   findInDBUserbyID,
   saveInDBUser,
   removeUser,

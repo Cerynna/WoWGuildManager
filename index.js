@@ -18,6 +18,7 @@ const {
   makeid,
   findInDBUser,
   findAllUsers,
+  findAllRaids,
   saveInDBUser,
   removeUser,
   findInDBUserbyID,
@@ -120,6 +121,13 @@ app.get("/api/raid/:day/:month/:year", async (req, res) => {
   const { day, month, year } = req.params;
   res.json(findInDBRaidbyDate(day, month, year));
 });
+
+app.get("/api/raids", async (req, res) => {
+  res.json(findAllRaids());
+});
+
+
+// scp root@51.38.190.243:/var/www/WoWGuildManager/ /home/cerynna/Bureau/RecupGuild
 
 app.get("/api/raid/:raidId", async (req, res) => {
   const { raidId } = req.params;
