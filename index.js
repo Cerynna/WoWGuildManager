@@ -123,12 +123,27 @@ app.post("/api/user/updateWL", async (req, res) => {
   console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
-  const indexWL = User.wishlist[type.phase].findIndex(slot => slot.type === type.type);
-  User.wishlist[type.phase][indexWL].item = item
-  console.log(
-    User.wishlist[type.phase][indexWL]
+  const indexWL = User.wishlist[type.phase].findIndex(
+    slot => slot.type === type.type
   );
+  User.wishlist[type.phase][indexWL].item = item;
+  console.log(User.wishlist[type.phase][indexWL]);
   saveInDBUser(User);
+  res.json(User);
+});
+app.get("/api/user/deleteWL/:id", async (req, res) => {
+  const { id } = req.params;
+  let User = findInDBUserbyID(id);
+  User.wishlist = {
+    phase1: Stuff,
+    phase2: Stuff,
+    pahse3: Stuff,
+    pahse4: Stuff,
+    pahse5: Stuff,
+    pahse6: Stuff
+  };
+  saveInDBUser(User);
+
   res.json(User);
 });
 
