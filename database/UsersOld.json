@@ -3,75 +3,76 @@
     "pass": "$2b$10$pLEZtOn7T61S6NjN1.t/.u1IjkwMwwxM5/OF0oD8K52itnFVDE456",
     "wishlist": [],
     "stuff": [{
-        "name": "Tete",
-        "type": "head",
-        "item": 18490
-    }, {
-        "name": "Mains",
-        "type": "hands",
-        "item": 16831
-    }, {
-        "name": "Colier",
-        "type": "neck",
-        "item": 18723
-    }, {
-        "name": "Ceinture",
-        "type": "waist",
-        "item": 18327
-    }, 
-    {
-        "name": "Cape",
-        "type": "back",
-        "item": 18510
-    },{
-        "name": "Epaulière",
-        "type": "shoulder",
-        "item": 15061
-    }, {
-        "name": "Jambieres",
-        "type": "legs",
-        "item": 18875
-    }, {
-        "name": "Torse",
-        "type": "chest",
-        "item": 13346
-    }, {
-        "name": "Pieds",
-        "type": "feet",
-        "item": 16829
-    }, {
-        "name": "Bracelets",
-        "type": "wrists",
-        "item": 18525
-    }, {
-        "name": "Doigt 1",
-        "type": "finger",
-        "item": 16058
-    }, {
-        "name": "Doigt 2",
-        "type": "finger",
-        "item": 13178
-    }, {
-        "name": "Bijou 1",
-        "type": "trinket",
-        "item": 18470
-    }, {
-        "name": "Bijou 2",
-        "type": "trinket",
-        "item": 17064
-    }, {
-        "name": "Arme Principal",
-        "type": "mainhand",
-        "item": 11923
-    }, {
-        "name": "Arme Secondaire",
-        "type": "offhand",
-        "item": 18523
-    }, {
-        "name": "Relic/Idole/Arme Distant/",
-        "type": "relic",
-        "item": null
-    }],
+            "name": "Tete",
+            "type": "head",
+            "item": 18490
+        }, {
+            "name": "Mains",
+            "type": "hands",
+            "item": 16831
+        }, {
+            "name": "Colier",
+            "type": "neck",
+            "item": 18723
+        }, {
+            "name": "Ceinture",
+            "type": "waist",
+            "item": 18327
+        },
+        {
+            "name": "Cape",
+            "type": "back",
+            "item": 18510
+        }, {
+            "name": "Epaulière",
+            "type": "shoulder",
+            "item": 15061
+        }, {
+            "name": "Jambieres",
+            "type": "legs",
+            "item": 18875
+        }, {
+            "name": "Torse",
+            "type": "chest",
+            "item": 13346
+        }, {
+            "name": "Pieds",
+            "type": "feet",
+            "item": 16829
+        }, {
+            "name": "Bracelets",
+            "type": "wrists",
+            "item": 18525
+        }, {
+            "name": "Doigt 1",
+            "type": "finger",
+            "item": 16058
+        }, {
+            "name": "Doigt 2",
+            "type": "finger",
+            "item": 13178
+        }, {
+            "name": "Bijou 1",
+            "type": "trinket",
+            "item": 18470
+        }, {
+            "name": "Bijou 2",
+            "type": "trinket",
+            "item": 17064
+        }, {
+            "name": "Arme Principal",
+            "type": "mainhand",
+            "item": 11923
+        }, {
+            "name": "Arme Secondaire",
+            "type": "offhand",
+            "item": 18523
+        }, {
+            "name": "Relic/Idole/Arme Distant/",
+            "type": "relic",
+            "item": null
+        }
+    ],
     "classe": "druid",
     "spe": "heal",
     "grade": 9,

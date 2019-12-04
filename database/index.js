@@ -233,6 +233,7 @@ const Stuff = [
   { name: "Mains", type: "hands", item: null },
   { name: "Colier", type: "neck", item: null },
   { name: "Ceinture", type: "waist", item: null },
+  { name: "Cape", type: "back", item: null },
   { name: "Epaulière", type: "shoulder", item: null },
   { name: "Jambieres", type: "legs", item: null },
   { name: "Torse", type: "chest", item: null },

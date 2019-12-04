@@ -7,6 +7,10 @@ const jwt = require("jsonwebtoken");
 const privateKey = "forgiven";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
+const csvFilePath = "database/loots.csv";
+const csv = require("csvtojson");
+
 app.use(express.static(path.join(__dirname, "/front/build")));
 app.set("trust proxy", 1);
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
@@ -15,6 +19,7 @@ app.use(cookieParser());
 
 const {
   User,
+  Stuff,
   makeid,
   findInDBUser,
   findAllUsers,
@@ -96,7 +101,35 @@ app.get("/api/user/name/:name", async (req, res) => {
   res.json(findInDBUser(req.params.name));
 });
 app.get("/api/user/id/:id", async (req, res) => {
+  let User = findInDBUserbyID(req.params.id);
+
+  if (!User.wishlist.phase1) {
+    console.log("LES PHASE EXISTE PAS");
+    User.wishlist = {
+      phase1: Stuff,
+      phase2: Stuff,
+      pahse3: Stuff,
+      pahse4: Stuff,
+      pahse5: Stuff,
+      pahse6: Stuff
+    };
+    saveInDBUser(User);
+  }
   res.json(findInDBUserbyID(req.params.id));
+});
+
+app.post("/api/user/updateWL", async (req, res) => {
+  const { idUser, type, item } = req.body;
+  console.log(idUser, type, item);
+
+  let User = findInDBUserbyID(idUser);
+  const indexWL = User.wishlist[type.phase].findIndex(slot => slot.type === type.type);
+  User.wishlist[type.phase][indexWL].item = item
+  console.log(
+    User.wishlist[type.phase][indexWL]
+  );
+  saveInDBUser(User);
+  res.json(User);
 });
 
 app.post("/api/user/update/", async (req, res) => {
@@ -126,6 +159,80 @@ app.get("/api/raids", async (req, res) => {
   res.json(findAllRaids());
 });
 
+app.get("/api/loots", async (req, res) => {
+  csv()
+    .fromFile(csvFilePath)
+    .then(loots => {
+      // console.log(jsonObj);
+      loots = loots.map(loot => {
+        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        delete loot.boss1;
+        delete loot.boss2;
+        delete loot.boss3;
+        delete loot.boss4;
+        return loot;
+      });
+      res.json(loots);
+    });
+});
+
+app.get("/api/loots/name/:name", async (req, res) => {
+  csv()
+    .fromFile(csvFilePath)
+    .then(loots => {
+      // console.log(jsonObj);
+      loots = loots.map(loot => {
+        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        delete loot.boss1;
+        delete loot.boss2;
+        delete loot.boss3;
+        delete loot.boss4;
+        return loot;
+      });
+
+      if (req.params.name) {
+        loots = loots
+          .map(loot => {
+            return loot.name.toLowerCase().indexOf(req.params.name) >= 0
+              ? loot
+              : false;
+          })
+          .filter(x => x);
+      }
+
+      console.log(loots);
+      res.json(loots);
+    });
+});
+
+app.get("/api/loots/type/:type", async (req, res) => {
+  csv()
+    .fromFile(csvFilePath)
+    .then(loots => {
+      // console.log(jsonObj);
+      loots = loots.map(loot => {
+        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        delete loot.boss1;
+        delete loot.boss2;
+        delete loot.boss3;
+        delete loot.boss4;
+        return loot;
+      });
+
+      if (req.params.type) {
+        loots = loots
+          .map(loot => {
+            return loot.type.toLowerCase().indexOf(req.params.type) >= 0
+              ? loot
+              : false;
+          })
+          .filter(x => x);
+      }
+
+      console.log(loots);
+      res.json(loots);
+    });
+});
 
 // scp root@51.38.190.243:/var/www/WoWGuildManager/ /home/cerynna/Bureau/RecupGuild
 
