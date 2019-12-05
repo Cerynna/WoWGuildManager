@@ -124,13 +124,28 @@ app.post("/api/user/updateWL", async (req, res) => {
 
   let User = findInDBUserbyID(idUser);
   const indexWL = User.wishlist[type.phase].findIndex(
-    slot => slot.type === type.type
+    slot => slot.name === type.name
   );
   User.wishlist[type.phase][indexWL].item = item;
   console.log(User.wishlist[type.phase][indexWL]);
   saveInDBUser(User);
   res.json(User);
 });
+
+app.post("/api/user/updateStuff", async (req, res) => {
+  const { idUser, type, item } = req.body;
+  console.log(idUser, type, item);
+
+  let User = findInDBUserbyID(idUser);
+  const indexWL = User[type.phase].findIndex(
+    slot => slot.name === type.name
+  );
+  User[type.phase][indexWL].item = item;
+  console.log(User[type.phase][indexWL]);
+  saveInDBUser(User);
+  res.json(User);
+});
+
 app.get("/api/user/deleteWL/:id", async (req, res) => {
   const { id } = req.params;
   let User = findInDBUserbyID(id);
@@ -219,7 +234,34 @@ app.get("/api/loots/name/:name", async (req, res) => {
       res.json(loots);
     });
 });
+app.get("/api/loots/id/:id", async (req, res) => {
+  csv()
+    .fromFile(csvFilePath)
+    .then(loots => {
+      // console.log(jsonObj);
+      loots = loots.map(loot => {
+        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        delete loot.boss1;
+        delete loot.boss2;
+        delete loot.boss3;
+        delete loot.boss4;
+        return loot;
+      });
 
+      if (req.params.name) {
+        loots = loots
+          .map(loot => {
+            return loot.id.toLowerCase().indexOf(req.params.id) >= 0
+              ? loot
+              : false;
+          })
+          .filter(x => x);
+      }
+
+      console.log(loots);
+      res.json(loots);
+    });
+});
 app.get("/api/loots/type/:type", async (req, res) => {
   csv()
     .fromFile(csvFilePath)
