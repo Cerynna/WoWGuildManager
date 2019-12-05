@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const privateKey = "forgiven";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const lodash = require("lodash");
 
 const csvFilePath = "database/loots.csv";
 const csv = require("csvtojson");
@@ -104,7 +105,7 @@ app.get("/api/user/id/:id", async (req, res) => {
   let User = findInDBUserbyID(req.params.id);
 
   if (!User.wishlist.phase1) {
-    console.log("LES PHASE EXISTE PAS");
+    // console.log("LES PHASE EXISTE PAS");
     User.wishlist = {
       phase1: Stuff,
       phase2: Stuff,
@@ -115,33 +116,72 @@ app.get("/api/user/id/:id", async (req, res) => {
     };
     saveInDBUser(User);
   }
-  res.json(findInDBUserbyID(req.params.id));
+
+  User.stuff.forEach((slot, index) => {
+    if (slot.name == "ijou 2") {
+      // console.log(slot);
+      User.stuff[index].name = "Bijou 2";
+      saveInDBUser(User);
+    }
+  });
+  Object.keys(User.wishlist).forEach((phase, index) => {
+    User.wishlist[phase] = lodash.orderBy(User.wishlist[phase], "name");
+
+    User.wishlist[phase].forEach((slot, index) => {
+      if (slot.name == "ijou 2") {
+        User.wishlist[phase][index].name = "Bijou 2";
+        saveInDBUser(User);
+      }
+    });
+  });
+
+  let findBack = User.stuff
+    .map(slot => {
+      // console.log(slot);
+      return slot.name == "Cape" ? slot : false;
+    })
+    .filter(x => x).length;
+  // console.log(findBack);
+  if (findBack === 0) {
+    // console.log("ADD CAPE");
+    User.stuff.push({
+      name: "Cape",
+      type: "back",
+      item: null
+    });
+    // console.log(User);
+
+    saveInDBUser(User);
+  }
+  User.stuff = lodash.orderBy(User.stuff, "name");
+
+  // console.log(lodash.orderBy(User.stuff, "name"));
+
+  res.json(User);
 });
 
 app.post("/api/user/updateWL", async (req, res) => {
   const { idUser, type, item } = req.body;
-  console.log(idUser, type, item);
+  // console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
   const indexWL = User.wishlist[type.phase].findIndex(
     slot => slot.name === type.name
   );
   User.wishlist[type.phase][indexWL].item = item;
-  console.log(User.wishlist[type.phase][indexWL]);
+  // console.log(User.wishlist[type.phase][indexWL]);
   saveInDBUser(User);
   res.json(User);
 });
 
 app.post("/api/user/updateStuff", async (req, res) => {
   const { idUser, type, item } = req.body;
-  console.log(idUser, type, item);
+  // console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
-  const indexWL = User[type.phase].findIndex(
-    slot => slot.name === type.name
-  );
+  const indexWL = User[type.phase].findIndex(slot => slot.name === type.name);
   User[type.phase][indexWL].item = item;
-  console.log(User[type.phase][indexWL]);
+  // console.log(User[type.phase][indexWL]);
   saveInDBUser(User);
   res.json(User);
 });
@@ -169,7 +209,7 @@ app.post("/api/user/update/", async (req, res) => {
 });
 
 app.get("/api/user/delete/:idUser", async (req, res) => {
-  console.log("DELETE");
+  // console.log("DELETE");
   const { idUser } = req.params;
   removeUser(idUser);
   res.json(true);
@@ -230,7 +270,7 @@ app.get("/api/loots/name/:name", async (req, res) => {
           .filter(x => x);
       }
 
-      console.log(loots);
+      // console.log(loots);
       res.json(loots);
     });
 });
@@ -258,7 +298,7 @@ app.get("/api/loots/id/:id", async (req, res) => {
           .filter(x => x);
       }
 
-      console.log(loots);
+      // console.log(loots);
       res.json(loots);
     });
 });
@@ -286,7 +326,7 @@ app.get("/api/loots/type/:type", async (req, res) => {
           .filter(x => x);
       }
 
-      console.log(loots);
+      // console.log(loots);
       res.json(loots);
     });
 });
@@ -366,7 +406,7 @@ app.post("/api/raid/bench", async (req, res) => {
 });
 
 app.post("/api/raid/new", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   req.body.id = makeid(10);
   saveInDBRaid(req.body);
   res.json(true);
