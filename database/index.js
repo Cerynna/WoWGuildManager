@@ -4,11 +4,18 @@ class User {
   constructor(
     name,
     pass = null,
-    wishlist = [],
+    wishlist = {
+      phase1: Stuff,
+      phase2: Stuff,
+      phase3: Stuff,
+      phase4: Stuff,
+      phase5: Stuff,
+      phase5: Stuff
+    },
     stuff = Stuff,
     classe = null,
     spe = null,
-    grade = null,
+    grade = 0,
     lastlog = Date.now(),
     id = makeid(10)
   ) {
@@ -171,18 +178,22 @@ const findAllRaids = () => {
 };
 const removeUser = idUser => {
   var DBUser = JSON.parse(fs.readFileSync(`${__dirname}/Users.json`, "utf8"));
-  console.log(DBUser.length)
+  console.log(DBUser.length);
   const indexUser = DBUser.map((user, index) =>
     user.id == idUser ? index : false
   )
     .filter(x => x !== false)
     .pop();
   delete DBUser[indexUser];
-  console.log(DBUser.length)
+  console.log(DBUser.length);
   const newDBUser = DBUser.filter(x => x !== null);
 
-  console.log(newDBUser.length)
-  fs.writeFileSync(`${__dirname}/Users.json`, JSON.stringify(newDBUser), "utf8");
+  console.log(newDBUser.length);
+  fs.writeFileSync(
+    `${__dirname}/Users.json`,
+    JSON.stringify(newDBUser),
+    "utf8"
+  );
 
   return true;
 };
@@ -206,21 +217,31 @@ const indexStatusRaidForUser = (raid, user) => {
       return currentUser.user == user ? index : false;
     })
     .filter(x => x !== false)
-    .join();
+    .pop();
+  // .join();
   let indexRefuse = raid.roster.refuse
     .map((currentUser, index) => {
       return currentUser.user == user ? index : false;
     })
     .filter(x => x !== false)
-    .join();
-    let indexBench = raid.roster.bench
+    .pop();
+  // .join();
+  let indexBench = raid.roster.bench
     .map((currentUser, index) => {
       return currentUser.user == user ? index : false;
     })
     .filter(x => x !== false)
-    .join();
+    .pop();
+  // .join();
 
-  return { indexAccept, indexRefuse, indexBench };
+  let indexValid = raid.roster.valid.map((grp, index) => {
+    // console.log("------------------------------------",index, grp.list.indexOf(user));
+    return grp.list.indexOf(user) >=0 ? index: false
+  }).filter(x => x !== false)
+  .pop();;
+
+  console.log(indexAccept, indexRefuse, indexBench, indexValid);
+  return { indexAccept, indexRefuse, indexBench, indexValid };
 };
 
 const Grades = [
