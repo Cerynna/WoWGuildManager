@@ -252,7 +252,12 @@ app.get("/api/loots", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
+        loot.boss = [
+          loot.boss1.toLowerCase(),
+          loot.boss2.toLowerCase(),
+          loot.boss3.toLowerCase(),
+          loot.boss4.toLowerCase()
+        ];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -269,7 +274,12 @@ app.get("/api/loots/name/:name", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
+        loot.boss = [
+          loot.boss1.toLowerCase(),
+          loot.boss2.toLowerCase(),
+          loot.boss3.toLowerCase(),
+          loot.boss4.toLowerCase()
+        ];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -298,7 +308,12 @@ app.get("/api/loots/id/:id", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
+        loot.boss = [
+          loot.boss1.toLowerCase(),
+          loot.boss2.toLowerCase(),
+          loot.boss3.toLowerCase(),
+          loot.boss4.toLowerCase()
+        ];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -327,7 +342,12 @@ app.get("/api/loots/type/:type", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
+        loot.boss = [
+          loot.boss1.toLowerCase(),
+          loot.boss2.toLowerCase(),
+          loot.boss3.toLowerCase(),
+          loot.boss4.toLowerCase()
+        ];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -473,3 +493,26 @@ const port = process.env.NODE_ENV === "development" ? 8000 : 3000;
 app.listen(port, async () => {
   console.log(`WOWGUILDMANAGER RUN IN PORT ${port}`);
 });
+
+const blizzard = require("blizzard.js").initialize({
+  key: "83282703b1c6485db2900a81dca9c94f",
+  secret: "pzAzdNYwrtimPoNot39B7UqHEqfIphDA",
+  origin: "fr",
+  locale: "fr_FR"
+});
+
+async function example() {
+  try {
+    await blizzard.getApplicationToken().then(response => {
+      blizzard.defaults.token = response.data.access_token;
+    });
+    blizzard.wow.item({ id: 17105 }).then(({data}) => {
+      console.log("data", data);
+    });
+    // console.log(item);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+example();
