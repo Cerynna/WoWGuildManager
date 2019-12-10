@@ -89,6 +89,11 @@ app.post("/auth/register", async (req, res) => {
     res.json(true);
   }
 });
+app.get("/auth/logout", async (req, res) => {
+  res.clearCookie("token");
+  res.clearCookie("user");
+  res.json(true);
+});
 app.post("/auth/verif/", async (req, res) => {
   const { token } = req.body;
   jwt.verify(token, privateKey, (err, decoded) => {
@@ -188,7 +193,7 @@ app.post("/api/user/updateWL", async (req, res) => {
 
 app.post("/api/user/updateStuff", async (req, res) => {
   const { idUser, type, item } = req.body;
-  // console.log(idUser, type, item);
+  console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
   const indexWL = User[type.phase].findIndex(slot => slot.name === type.name);
@@ -247,7 +252,7 @@ app.get("/api/loots", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -264,7 +269,7 @@ app.get("/api/loots/name/:name", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -287,12 +292,13 @@ app.get("/api/loots/name/:name", async (req, res) => {
     });
 });
 app.get("/api/loots/id/:id", async (req, res) => {
+  // console.log('LOOTID', req.params.id)
   csv()
     .fromFile(csvFilePath)
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -300,9 +306,10 @@ app.get("/api/loots/id/:id", async (req, res) => {
         return loot;
       });
 
-      if (req.params.name) {
+      if (req.params.id) {
         loots = loots
           .map(loot => {
+            // console.log(loot.id.toLowerCase().indexOf(req.params.id));
             return loot.id.toLowerCase().indexOf(req.params.id) >= 0
               ? loot
               : false;
@@ -320,7 +327,7 @@ app.get("/api/loots/type/:type", async (req, res) => {
     .then(loots => {
       // console.log(jsonObj);
       loots = loots.map(loot => {
-        loot.boss = [loot.boss1, loot.boss2, loot.boss3, loot.boss4];
+        loot.boss = [loot.boss1.toLowerCase(), loot.boss2.toLowerCase(), loot.boss3.toLowerCase(), loot.boss4.toLowerCase()];
         delete loot.boss1;
         delete loot.boss2;
         delete loot.boss3;
@@ -373,7 +380,7 @@ app.post("/api/raid/refuse", async (req, res) => {
     indexValid
   } = indexStatusRaidForUser(raid, user);
 
-  console.log(user, indexAccept, indexRefuse, indexBench);
+  // console.log(user, indexAccept, indexRefuse, indexBench);
 
   if (indexAccept !== undefined) {
     raid.roster.accept.splice(indexAccept, 1);
@@ -385,9 +392,11 @@ app.post("/api/raid/refuse", async (req, res) => {
     raid.roster.refuse.push({ user: user, date: Date.now() });
   }
   if (indexValid !== undefined) {
-    raid.roster.valid[indexValid].list = raid.roster.valid[indexValid].list.filter(x => x !== user);
+    raid.roster.valid[indexValid].list = raid.roster.valid[
+      indexValid
+    ].list.filter(x => x !== user);
   }
-  console.log(raid.roster);
+  // console.log(raid.roster);
   saveInDBRaid(raid);
   res.json(true);
 });
@@ -412,7 +421,9 @@ app.post("/api/raid/accept", async (req, res) => {
     raid.roster.accept.push({ user: user, date: Date.now(), valid: false });
   }
   if (indexValid !== undefined) {
-    raid.roster.valid[indexValid].list = raid.roster.valid[indexValid].list.filter(x => x !== user);
+    raid.roster.valid[indexValid].list = raid.roster.valid[
+      indexValid
+    ].list.filter(x => x !== user);
   }
   saveInDBRaid(raid);
   res.json(true);
@@ -438,7 +449,9 @@ app.post("/api/raid/bench", async (req, res) => {
     raid.roster.bench.push({ user: user, date: Date.now() });
   }
   if (indexValid !== undefined) {
-    raid.roster.valid[indexValid].list = raid.roster.valid[indexValid].list.filter(x => x !== user);
+    raid.roster.valid[indexValid].list = raid.roster.valid[
+      indexValid
+    ].list.filter(x => x !== user);
   }
   saveInDBRaid(raid);
   res.json(true);
