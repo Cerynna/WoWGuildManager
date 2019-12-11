@@ -269,27 +269,27 @@ app.get("/api/loots", async (req, res) => {
   var DBLoots = JSON.parse(
     fs.readFileSync(`${__dirname}/database/Loots.json`, "utf8")
   );
-  console.log(lodash.orderBy(DBLoots, "length"));
+  // console.log(lodash.orderBy(DBLoots, "length"));
 
   res.json(DBLoots);
 });
 
 app.get("/api/loots/find/:type/:data/:slot", async (req, res) => {
   const { type, data, slot } = req.params;
-  console.log(typeof name);
+  // console.log(type);
   var DBLoots = JSON.parse(
     fs.readFileSync(`${__dirname}/database/Loots.json`, "utf8")
   );
   // console.log(DBLoots);
   const findLoot = DBLoots.filter(loot => {
-    console.log(loot[type], data, loot[type].indexOf(data));
+    console.log(loot[type].indexOf(data), loot.type, slot);
     if (type == "name") {
       return loot[type].indexOf(data) >= 0 && loot.type == slot;
     } else {
       return loot[type] == data && loot.type == slot;
     }
   });
-  console.log(findLoot);
+  // console.log(findLoot);
   res.json(findLoot);
 });
 app.get("/api/loots/id/:id", async (req, res) => {
