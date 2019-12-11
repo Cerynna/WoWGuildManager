@@ -282,7 +282,7 @@ app.get("/api/loots/find/:type/:data/:slot", async (req, res) => {
   );
   // console.log(DBLoots);
   const findLoot = DBLoots.filter(loot => {
-    console.log(loot[type].indexOf(data), loot.type, slot);
+    // console.log(loot[type].indexOf(data), loot.type, slot);
     if (type == "name") {
       return loot[type].indexOf(data) >= 0 && loot.type == slot;
     } else {
