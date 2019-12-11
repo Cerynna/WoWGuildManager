@@ -263,7 +263,7 @@ const Stuff = [
   { name: "Doigt 1", type: "finger", item: null },
   { name: "Doigt 2", type: "finger", item: null },
   { name: "Bijou 1", type: "trinket", item: null },
-  { name: "ijou 2", type: "trinket", item: null },
+  { name: "Bijou 2", type: "trinket", item: null },
   { name: "Arme Principal", type: "mainhand", item: null },
   { name: "Arme Secondaire", type: "offhand", item: null },
   { name: "Relic/Idole/Arme Distant/", type: "relic", item: null }

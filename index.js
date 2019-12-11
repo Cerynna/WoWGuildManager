@@ -8,9 +8,21 @@ const privateKey = "forgiven";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const lodash = require("lodash");
+const fs = require("fs");
+const ConsoleProgressBar = require("console-progress-bar");
 
 const csvFilePath = "database/loots.csv";
 const csv = require("csvtojson");
+
+const blizzard = require("blizzard.js").initialize({
+  key: "83282703b1c6485db2900a81dca9c94f",
+  secret: "pzAzdNYwrtimPoNot39B7UqHEqfIphDA",
+  origin: "eu",
+  locale: "fr_FR"
+});
+blizzard.getApplicationToken().then(response => {
+  blizzard.defaults.token = response.data.access_token;
+});
 
 app.use(express.static(path.join(__dirname, "/front/build")));
 app.set("trust proxy", 1);
@@ -33,6 +45,12 @@ const {
   saveInDBRaid,
   indexStatusRaidForUser
 } = require("./database");
+
+
+if (!fs.existsSync(`${__dirname}/database/Loots.json`)) {
+  CreateDB();
+}
+
 
 app.post("/auth/login", async (req, res) => {
   const { login, pass } = req.body;
@@ -179,9 +197,10 @@ app.get("/api/user/id/:id", async (req, res) => {
 
 app.post("/api/user/updateWL", async (req, res) => {
   const { idUser, type, item } = req.body;
-  // console.log(idUser, type, item);
+  console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
+  // console.log(User.wishlist[type.phase]);
   const indexWL = User.wishlist[type.phase].findIndex(
     slot => slot.name === type.name
   );
@@ -247,59 +266,31 @@ app.get("/api/raids", async (req, res) => {
 });
 
 app.get("/api/loots", async (req, res) => {
-  csv()
-    .fromFile(csvFilePath)
-    .then(loots => {
-      // console.log(jsonObj);
-      loots = loots.map(loot => {
-        loot.boss = [
-          loot.boss1.toLowerCase(),
-          loot.boss2.toLowerCase(),
-          loot.boss3.toLowerCase(),
-          loot.boss4.toLowerCase()
-        ];
-        delete loot.boss1;
-        delete loot.boss2;
-        delete loot.boss3;
-        delete loot.boss4;
-        return loot;
-      });
-      res.json(loots);
-    });
+  var DBLoots = JSON.parse(
+    fs.readFileSync(`${__dirname}/database/Loots.json`, "utf8")
+  );
+  console.log(lodash.orderBy(DBLoots, "length"));
+
+  res.json(DBLoots);
 });
 
-app.get("/api/loots/name/:name", async (req, res) => {
-  csv()
-    .fromFile(csvFilePath)
-    .then(loots => {
-      // console.log(jsonObj);
-      loots = loots.map(loot => {
-        loot.boss = [
-          loot.boss1.toLowerCase(),
-          loot.boss2.toLowerCase(),
-          loot.boss3.toLowerCase(),
-          loot.boss4.toLowerCase()
-        ];
-        delete loot.boss1;
-        delete loot.boss2;
-        delete loot.boss3;
-        delete loot.boss4;
-        return loot;
-      });
-
-      if (req.params.name) {
-        loots = loots
-          .map(loot => {
-            return loot.name.toLowerCase().indexOf(req.params.name) >= 0
-              ? loot
-              : false;
-          })
-          .filter(x => x);
-      }
-
-      // console.log(loots);
-      res.json(loots);
-    });
+app.get("/api/loots/find/:type/:data/:slot", async (req, res) => {
+  const { type, data, slot } = req.params;
+  console.log(typeof name);
+  var DBLoots = JSON.parse(
+    fs.readFileSync(`${__dirname}/database/Loots.json`, "utf8")
+  );
+  // console.log(DBLoots);
+  const findLoot = DBLoots.filter(loot => {
+    console.log(loot[type]);
+    if (type == "name") {
+      return loot[type].indexOf(data) >= 0 && loot.type == slot;
+    } else {
+      return loot[type] == data && loot.type == slot;
+    }
+  });
+  console.log(findLoot);
+  res.json(findLoot);
 });
 app.get("/api/loots/id/:id", async (req, res) => {
   // console.log('LOOTID', req.params.id)
@@ -484,6 +475,23 @@ app.post("/api/raid/new", async (req, res) => {
   res.json(true);
 });
 
+app.get("/api/item/:id", async (req, res) => {
+  const { id } = req.params;
+  // console.log(typeof id)
+  blizzard.wow
+    .item({ id: id })
+    .then(({ data }) => {
+      // console.log("data", data);
+      res.json(data);
+    })
+    .catch(err => {
+      if (err) {
+        // console.log("ERR", err);
+        res.json(false);
+      }
+    });
+});
+
 app.get("*", (req, res) => {
   const index = path.join(__dirname, "/front/build/index.html");
   res.sendFile(path.join(index));
@@ -494,25 +502,156 @@ app.listen(port, async () => {
   console.log(`WOWGUILDMANAGER RUN IN PORT ${port}`);
 });
 
-const blizzard = require("blizzard.js").initialize({
-  key: "83282703b1c6485db2900a81dca9c94f",
-  secret: "pzAzdNYwrtimPoNot39B7UqHEqfIphDA",
-  origin: "fr",
-  locale: "fr_FR"
-});
+// async function example() {
+//   // try {
 
-async function example() {
-  try {
-    await blizzard.getApplicationToken().then(response => {
-      blizzard.defaults.token = response.data.access_token;
+//   // console.log(item);
+//   // } catch (err) {
+//   // console.error(err);
+//   // }
+// }
+
+// example();
+
+function CreateDB() {
+  csv()
+    .fromFile(csvFilePath)
+    .then(loots => {
+      // console.log(jsonObj);
+      loots = loots.map(loot => {
+        loot.boss = [
+          loot.boss1.toLowerCase(),
+          loot.boss2.toLowerCase(),
+          loot.boss3.toLowerCase(),
+          loot.boss4.toLowerCase(),
+          loot.boss5.toLowerCase()
+        ].filter(x => x != "");
+        loot.prio = [
+          { classe: loot.prio1.toLowerCase(), spe: loot.spe1.toLowerCase() },
+          { classe: loot.prio2.toLowerCase(), spe: loot.spe2.toLowerCase() },
+          { classe: loot.prio3.toLowerCase(), spe: loot.spe3.toLowerCase() },
+          { classe: loot.prio4.toLowerCase(), spe: loot.spe4.toLowerCase() },
+          { classe: loot.prio5.toLowerCase(), spe: loot.spe5.toLowerCase() }
+        ].filter(x => x.classe != "" && x.spe != "");
+        delete loot.boss1;
+        delete loot.boss2;
+        delete loot.boss3;
+        delete loot.boss4;
+        delete loot.boss5;
+
+        delete loot.prio1;
+        delete loot.prio2;
+        delete loot.prio3;
+        delete loot.prio4;
+        delete loot.prio5;
+
+        delete loot.spe1;
+        delete loot.spe2;
+        delete loot.spe3;
+        delete loot.spe4;
+        delete loot.spe5;
+        loot.id = parseInt(loot.id);
+        // console.log(loot.prio);
+        return loot;
+      });
+      //       loots.map((loot)=>{
+
+      // // console.log(loot.id)
+      //         // blizzard.wow
+      //         // .item({ id: loot.id })
+      //         // .then(({ data }) => {
+      //         //   // console.log(loots);
+      //         //   console.log("data", data);
+      //         //   // res.json(data);
+      //         // })
+      //         // .catch(err => {
+      //         //   if (err) {
+      //         //     // console.log("ERR", err);
+      //         //     // res.json(false);
+      //         //   }
+      //         // });
+      //       })
+      let buzy = false;
+      // console.log(loots);
+      let indexLoot = 0;
+      const consoleProgressBar = new ConsoleProgressBar({
+        maxValue: loots.length
+      });
+      // loots = loots.slice(0, 5);
+      let AutoRunLoots = setInterval(() => {
+        if (!buzy) {
+          buzy = true;
+          if (loots[indexLoot] != undefined) {
+            // blizzard.wow.boss({id: data.itemSource.sourceId})
+            blizzard.wow
+              .item({ id: loots[indexLoot].id })
+              .then(({ data }) => {
+                // console.log(loots);
+                // console.log(
+                //   indexLoot,
+                //   data.id,
+                //   loots[indexLoot].n
+                // );
+
+                // blizzard.wow
+                //   .boss({ id: data.itemSource.sourceId })
+                //   .then(({ data }) => {
+                //     console.log(data.name);
+                //   });
+
+                loots[indexLoot].name = data.name.toLowerCase();
+                loots[indexLoot].icon = data.icon;
+                loots[indexLoot].quality = data.quality;
+                // console.log("data", data);
+                indexLoot += 1;
+                consoleProgressBar.addValue(1);
+                buzy = false;
+                // resolve(data);
+              })
+              .catch(err => {
+                if (err) {
+                  console.log("ERR");
+                  buzy = false;
+                  // res.json(false);
+                }
+              });
+          } else {
+            buzy = null;
+          }
+        }
+        if (buzy == null) {
+          clearInterval(AutoRunLoots);
+          // console.log(loots);
+          fs.writeFileSync(
+            `${__dirname}/database/Loots.json`,
+            JSON.stringify(loots),
+            "utf8"
+          );
+        }
+      }, 500);
+
+      // if (req.params.type) {
+      //   loots = loots
+      //     .map(loot => {
+      //       return loot.type.toLowerCase().indexOf(req.params.type) >= 0
+      //         ? loot
+      //         : false;
+      //     })
+      //     .filter(x => x);
+      // }
+
+      // res.json(loots);
     });
-    blizzard.wow.item({ id: 17105 }).then(({data}) => {
-      console.log("data", data);
-    });
-    // console.log(item);
-  } catch (err) {
-    console.error(err);
-  }
 }
+// CreateDB();
 
-example();
+// var promise1 = Promise.resolve(3);
+// var promise2 = 42;
+// var promise3 = new Promise(function(resolve, reject) {
+//   // console.log(resolve)
+
+// });
+
+// Promise.all([promise1, promise2, promise3]).then(function(values) {
+//   console.log(values);
+// });
