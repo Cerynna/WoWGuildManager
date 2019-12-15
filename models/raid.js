@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     idWOW: DataTypes.BIGINT,
     boss: DataTypes.STRING,
+    img: DataTypes.STRING,
     // format: DataTypes.OBJECT,
   }, {});
   Raid.associate = function(models) {

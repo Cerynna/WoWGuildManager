@@ -29,15 +29,19 @@ app.use(express.static(path.join(__dirname, "/front/build")));
 
 app.set("trust proxy", 1);
 
-app.use(bodyParser.json({
-  limit: "100mb",
-  extended: true
-}));
+app.use(
+  bodyParser.json({
+    limit: "100mb",
+    extended: true
+  })
+);
 
-app.use(bodyParser.urlencoded({
-  limit: "100mb",
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    limit: "100mb",
+    extended: true
+  })
+);
 
 app.use(cookieParser());
 
@@ -57,19 +61,15 @@ const {
   indexStatusRaidForUser
 } = require("./database");
 
-
 if (!fs.existsSync(`${__dirname}/database/Loots.json`)) {
   CreateDB();
 }
 
 app.post("/auth/login", async (req, res) => {
-  const {
-    login,
-    pass
-  } = req.body;
+  const { login, pass } = req.body;
   const user = findInDBUser(login);
   if (user) {
-    bcrypt.compare(pass, user.pass, function (err, resPass) {
+    bcrypt.compare(pass, user.pass, function(err, resPass) {
       // console.log(resPass)
       if (resPass) {
         delete user.wishlist;
@@ -129,9 +129,7 @@ app.get("/auth/logout", async (req, res) => {
 });
 
 app.post("/auth/verif/", async (req, res) => {
-  const {
-    token
-  } = req.body;
+  const { token } = req.body;
   jwt.verify(token, privateKey, (err, decoded) => {
     const newToken = jwt.sign(findInDBUser(decoded.name), privateKey);
     res.cookie("token", newToken);
@@ -142,9 +140,7 @@ app.post("/auth/verif/", async (req, res) => {
 });
 
 app.post("/auth/verifAdmin", async (req, res) => {
-  const {
-    token
-  } = req.body;
+  const { token } = req.body;
   // console.log(req.body);
   jwt.verify(token, privateKey, (err, decoded) => {
     // console.log(decoded);
@@ -218,30 +214,29 @@ app.get("/api/user/id/:id", async (req, res) => {
 });
 
 app.post("/api/user/updateWL", async (req, res) => {
-  const {
-    idUser,
-    type,
-    item
-  } = req.body;
+  const { idUser, type, item } = req.body;
   console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
   // console.log(User.wishlist[type.phase]);
-  const indexWL = User.wishlist[type.phase].findIndex(
-    slot => slot.name === type.name
-  );
-  User.wishlist[type.phase][indexWL].item = item;
+
+  if (type.phase == "stuff") {
+    const indexWL = User[type.phase].findIndex(slot => slot.name === type.name);
+    User[type.phase][indexWL].item = item;
+  } else {
+    const indexWL = User.wishlist[type.phase].findIndex(
+      slot => slot.name === type.name
+    );
+    User.wishlist[type.phase][indexWL].item = item;
+  }
+
   // console.log(User.wishlist[type.phase][indexWL]);
   saveInDBUser(User);
   res.json(User);
 });
 
 app.post("/api/user/updateStuff", async (req, res) => {
-  const {
-    idUser,
-    type,
-    item
-  } = req.body;
+  const { idUser, type, item } = req.body;
   console.log(idUser, type, item);
 
   let User = findInDBUserbyID(idUser);
@@ -253,9 +248,7 @@ app.post("/api/user/updateStuff", async (req, res) => {
 });
 
 app.get("/api/user/deleteWL/:id", async (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   let User = findInDBUserbyID(id);
   User.wishlist = {
     phase1: Stuff,
@@ -271,18 +264,14 @@ app.get("/api/user/deleteWL/:id", async (req, res) => {
 });
 
 app.post("/api/user/update/", async (req, res) => {
-  const {
-    user
-  } = req.body;
+  const { user } = req.body;
   saveInDBUser(user);
   res.json(true);
 });
 
 app.get("/api/user/delete/:idUser", async (req, res) => {
   // console.log("DELETE");
-  const {
-    idUser
-  } = req.params;
+  const { idUser } = req.params;
   removeUser(idUser);
   res.json(true);
 });
@@ -293,11 +282,7 @@ app.post("/api/decodeToken", async (req, res) => {
 });
 
 app.get("/api/raid/:day/:month/:year", async (req, res) => {
-  const {
-    day,
-    month,
-    year
-  } = req.params;
+  const { day, month, year } = req.params;
   res.json(findInDBRaidbyDate(day, month, year));
 });
 
@@ -315,11 +300,7 @@ app.get("/api/loots", async (req, res) => {
 });
 
 app.get("/api/loots/find/:type/:data/:slot", async (req, res) => {
-  const {
-    type,
-    data,
-    slot
-  } = req.params;
+  const { type, data, slot } = req.params;
   // console.log(type);
   var DBLoots = JSON.parse(
     fs.readFileSync(`${__dirname}/database/Loots.json`, "utf8")
@@ -361,9 +342,9 @@ app.get("/api/loots/id/:id", async (req, res) => {
         loots = loots
           .map(loot => {
             // console.log(loot.id.toLowerCase().indexOf(req.params.id));
-            return loot.id.toLowerCase().indexOf(req.params.id) >= 0 ?
-              loot :
-              false;
+            return loot.id.toLowerCase().indexOf(req.params.id) >= 0
+              ? loot
+              : false;
           })
           .filter(x => x);
       }
@@ -395,9 +376,9 @@ app.get("/api/loots/type/:type", async (req, res) => {
       if (req.params.type) {
         loots = loots
           .map(loot => {
-            return loot.type.toLowerCase().indexOf(req.params.type) >= 0 ?
-              loot :
-              false;
+            return loot.type.toLowerCase().indexOf(req.params.type) >= 0
+              ? loot
+              : false;
           })
           .filter(x => x);
       }
@@ -410,16 +391,12 @@ app.get("/api/loots/type/:type", async (req, res) => {
 // scp root@51.38.190.243:/var/www/WoWGuildManager/ /home/cerynna/Bureau/RecupGuild
 
 app.get("/api/raid/:raidId", async (req, res) => {
-  const {
-    raidId
-  } = req.params;
+  const { raidId } = req.params;
   res.json(findInDBRaidbyID(raidId));
 });
 
 app.post("/api/raid/update", async (req, res) => {
-  const {
-    raid
-  } = req.body;
+  const { raid } = req.body;
   // console.log(req.body)
   raid.roster.valid.forEach((grp, i) => {
     raid.roster.valid[i].list = raid.roster.valid[i].list.filter(
@@ -434,10 +411,7 @@ app.post("/api/raid/update", async (req, res) => {
 });
 
 app.post("/api/raid/refuse", async (req, res) => {
-  const {
-    id,
-    user
-  } = req.body;
+  const { id, user } = req.body;
   const raid = findInDBRaidbyID(id);
   const {
     indexAccept,
@@ -471,10 +445,7 @@ app.post("/api/raid/refuse", async (req, res) => {
 });
 
 app.post("/api/raid/accept", async (req, res) => {
-  const {
-    id,
-    user
-  } = req.body;
+  const { id, user } = req.body;
   const raid = findInDBRaidbyID(id);
 
   const {
@@ -507,10 +478,7 @@ app.post("/api/raid/accept", async (req, res) => {
 });
 
 app.post("/api/raid/bench", async (req, res) => {
-  const {
-    id,
-    user
-  } = req.body;
+  const { id, user } = req.body;
   const raid = findInDBRaidbyID(id);
 
   const {
@@ -549,17 +517,13 @@ app.post("/api/raid/new", async (req, res) => {
 });
 
 app.get("/api/item/:id", async (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   // console.log(typeof id)
   blizzard.wow
     .item({
       id: id
     })
-    .then(({
-      data
-    }) => {
+    .then(({ data }) => {
       // console.log("data", data);
       res.json(data);
     })
@@ -605,7 +569,8 @@ function CreateDB() {
           loot.boss4.toLowerCase(),
           loot.boss5.toLowerCase()
         ].filter(x => x != "");
-        loot.prio = [{
+        loot.prio = [
+          {
             classe: loot.prio1.toLowerCase(),
             spe: loot.spe1.toLowerCase()
           },
@@ -680,9 +645,7 @@ function CreateDB() {
               .item({
                 id: loots[indexLoot].id
               })
-              .then(({
-                data
-              }) => {
+              .then(({ data }) => {
                 // console.log(loots);
                 // console.log(
                 //   indexLoot,

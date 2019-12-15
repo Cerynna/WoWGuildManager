@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
       format: {
         type: DataTypes.STRING,
         get() {
-          return JSON.parse(this.getDataValue("type"));
+          return JSON.parse(this.getDataValue("format"));
         },
         set(format) {
-          this.setDataValue("type", JSON.stringify(format));
+          this.setDataValue("format", JSON.stringify(format));
         },
         defaultValue: JSON.stringify({
           name: "Raid 40",
