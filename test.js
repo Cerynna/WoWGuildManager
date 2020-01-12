@@ -22,6 +22,6 @@ csv()
         .filter(x => x);
     }
 
-    console.log(loots);
+    // console.log(loots);
     return loots
   });

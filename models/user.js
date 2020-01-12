@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       login: DataTypes.STRING,
       classe: DataTypes.STRING,
       password: DataTypes.STRING,
+      grade: DataTypes.STRING,
       spec: DataTypes.STRING,
       hash: {
         type: DataTypes.STRING,

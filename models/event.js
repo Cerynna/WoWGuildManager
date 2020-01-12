@@ -4,16 +4,53 @@ module.exports = (sequelize, DataTypes) => {
     "Event",
     {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-      date: DataTypes.DATE,
+      date: {
+        type: DataTypes.STRING,
+        get() {
+          return JSON.parse(this.getDataValue("date"));
+        },
+        set(date) {
+          this.setDataValue("date", JSON.stringify(date));
+        }
+      },
       name: DataTypes.STRING,
       desc: DataTypes.TEXT,
+      type: DataTypes.STRING,
+      d: DataTypes.STRING,
+      m: DataTypes.STRING,
+      y: DataTypes.STRING,
       roster: {
         type: DataTypes.STRING,
         get() {
-          return JSON.parse(this.getDataValue("data"));
+          const roster = JSON.parse(this.getDataValue("roster"));
+          Object.keys(roster).forEach((state, index) => {
+            // console.log(state);
+            roster[state] = JSON.parse(roster[state]);
+            if (state == "valid") {
+              roster[state].forEach((grp, index) => {
+                roster[state][index] = JSON.parse(roster[state][index]);
+              });
+            }
+          });
+
+          return roster;
         },
-        set(data) {
-          this.setDataValue("data", JSON.stringify(data));
+        set(roster) {
+
+          Object.keys(roster).map(state => {
+            if (state == "valid") {
+              // console.log(state);
+              roster[state].map((grp, index) => {
+                roster[state][index] = JSON.stringify(
+                  roster[state][index]
+                );
+  
+              });
+            } 
+            roster[state] = JSON.stringify(roster[state]);
+          })
+
+          this.setDataValue("roster", JSON.stringify(roster));
         },
         defaultValue: JSON.stringify({
           accept: [],

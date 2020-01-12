@@ -20,7 +20,12 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js -i ./database",
-    "test": "jest tests"
+    "test": "jest tests",
+    "reforged:create": "MODE=create node ./reforge.js ",
+    "reforged:item": "MODE=item node ./reforge.js ",
+    "reforged:boss": "MODE=boss node ./reforge.js ",
+    "reforged:finish": "MODE=finish node ./reforge.js ",
+    "reforged:init": "MODE=init node ./reforge.js "
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
