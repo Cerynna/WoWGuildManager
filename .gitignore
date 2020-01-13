@@ -10,3 +10,4 @@ react
 database/Raids.json
 database/Users.json
 save
+database.sqlite3
