@@ -35,9 +35,9 @@ const DBRaid = JSON.parse(
 const DBItem = JSON.parse(
   fs.readFileSync(`${__dirname}/database/Loots.json`, "utf8")
 );
-const errorItem = JSON.parse(
-  fs.readFileSync(`${__dirname}/database/errorItem.json`, "utf8")
-);
+// const errorItem = JSON.parse(
+//   fs.readFileSync(`${__dirname}/database/errorItem.json`, "utf8")
+// );
 const defRaid = [{
     name: "Coeur du Magma",
     id: 2717,
