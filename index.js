@@ -78,6 +78,31 @@ async function asyncForEach(array, callback) {
     await callback(array[index], index, array);
   }
 }
+
+
+Boss.findOrCreate({
+  where: {
+    name: "Trash MC",
+    idWOW: null,
+    loot: [16802, 16799, 16864, 16861, 16830, 16838, 16840, 16806, 16804, 16851, 16850, 16858, 16857, 16827, 16825, 16817, 16819]
+  },
+  defaults: {
+    raid: 2717,
+    tag: "trash-mc"
+  }
+})
+Boss.findOrCreate({
+  where: {
+    name: "Trash BWL",
+    idWOW: null,
+    loot: [19436, 19439, 19437, 19438, 19434, 19435, 19362, 19354, 19358]
+  },
+  defaults: {
+    raid: 2677,
+    tag: "trash-bwl"
+  }
+})
+
 app.post("/api/attribloot", async (req, res) => {
   let {
     idUser,
